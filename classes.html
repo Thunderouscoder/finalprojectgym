@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Class Calendar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="location.html">Location</a></li>
+                <li><a href="classes.html">Classes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="classes-calendar">
+            <h1>Exercise Classes Calendar</h1>
+            <p>View our exercise groups for this month!</p>
+
+            <table id="calendar">
+                <thead>
+                    <tr>
+                        <th>Sunday</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body">
+                    <!-- Calendar Days will be dynamically generated -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Infinite Fitness Gym. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const exerciseGroups = [
+            "Cardio Blast", "Strength Training", "HIIT", "Yoga", 
+            "Pilates", "CrossFit", "Cycling", "Boxing", 
+            "Zumba", "Bodyweight Bootcamp"
+        ];
+        const coaches = ["Coach Alex", "Coach Maria", "Coach John", "Coach Sarah", "Coach David", "Coach Emily"];
+
+        function generateCalendar() {
+            const calendarBody = document.getElementById('calendar-body');
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            let dayCounter = 1;
+            for (let row = 0; row < 6; row++) { // Max 6 rows
+                const tr = document.createElement('tr');
+
+                for (let col = 0; col < 7; col++) { // 7 days a week
+                    const td = document.createElement('td');
+                    
+                    if (row === 0 && col < firstDay) {
+                        // Empty cells before the first day
+                        td.innerHTML = "";
+                    } else if (dayCounter > totalDays) {
+                        // Empty cells after the last day
+                        td.innerHTML = "";
+                    } else {
+                        const randomGroup = exerciseGroups[Math.floor(Math.random() * exerciseGroups.length)];
+                        const randomCoach = coaches[Math.floor(Math.random() * coaches.length)];
+
+                        td.innerHTML = `
+                            <div class="day-number">${dayCounter}</div>
+                            <div class="exercise-group">${randomGroup}</div>
+                            <div class="coach">${randomCoach}</div>
+                        `;
+                        dayCounter++;
+                    }
+                    tr.appendChild(td);
+                }
+
+                calendarBody.appendChild(tr);
+
+                if (dayCounter > totalDays) break; // Stop when all days are filled
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', generateCalendar);
+    </script>
+</body>
+</html>

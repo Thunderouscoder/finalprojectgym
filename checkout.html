@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="location.html">Location</a></li>
+                <li><a href="classes.html">Classes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="checkout">
+            <h1>Checkout</h1>
+            <p>Review your membership plan and enter payment details:</p>
+
+            <!-- Checkout Details -->
+            <div id="checkout-details">
+                <p><strong>Selected Plan:</strong> <span id="plan-name">Loading...</span></p>
+                <p><strong>Price:</strong> $<span id="plan-price">0.00</span></p>
+                <p><strong>Tax (10%):</strong> $<span id="tax-amount">0.00</span></p>
+                <p><strong>Total Price:</strong> $<span id="total-price">0.00</span></p>
+            </div>
+
+            <!-- Payment Form -->
+            <form id="payment-form">
+                <img src="Infinite Fitness.jpg" class="infinitefitness">
+                <h2>Enter Your Credit Card Details</h2>
+                
+                <label for="card-name">Cardholder Name:</label>
+                <input type="text" id="card-name" name="card-name" placeholder="John Doe" required>
+
+                <label for="card-number">Card Number:</label>
+                <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" maxlength="19" required>
+
+                <label for="expiry">Expiry Date:</label>
+                <input type="month" id="expiry" name="expiry" required>
+
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3" required>
+
+                <button type="submit">Pay Now</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Infinite Fitness Gym. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Read query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const planName = urlParams.get('plan') || "No Plan Selected";
+        const price = parseFloat(urlParams.get('price')) || 0;
+
+        // Calculate tax and total price
+        const taxRate = 0.10; // 10% tax
+        const taxAmount = (price * taxRate).toFixed(2);
+        const totalPrice = (price + parseFloat(taxAmount)).toFixed(2);
+
+        // Update checkout details
+        document.getElementById('plan-name').textContent = planName;
+        document.getElementById('plan-price').textContent = price.toFixed(2);
+        document.getElementById('tax-amount').textContent = taxAmount;
+        document.getElementById('total-price').textContent = totalPrice;
+
+        // Payment Form Submission
+        document.getElementById('payment-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const cardName = document.getElementById('card-name').value;
+            const cardNumber = document.getElementById('card-number').value;
+            const expiry = document.getElementById('expiry').value;
+            const cvv = document.getElementById('cvv').value;
+
+            // Simple credit card validation
+            if (!validateCardNumber(cardNumber)) {
+                alert("Please enter a valid 16-digit card number.");
+                return;
+            }
+
+            if (!validateCVV(cvv)) {
+                alert("Please enter a valid 3-digit CVV.");
+                return;
+            }
+
+            // Payment success message
+            alert(`Payment successful!\n\nPlan: ${planName}\nTotal Paid: $${totalPrice}`);
+            window.location.href = "index.html"; // Redirect to homepage after payment
+        });
+
+        // Card Number Validation (16-digit format)
+        function validateCardNumber(number) {
+            const regex = /^\d{4} \d{4} \d{4} \d{4}$/;
+            return regex.test(number);
+        }
+
+        // CVV Validation (3-digit format)
+        function validateCVV(cvv) {
+            const regex = /^\d{3}$/;
+            return regex.test(cvv);
+        }
+
+        // Format card number as user types
+        document.getElementById('card-number').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            const formatted = value.match(/.{1,4}/g)?.join(' ') || '';
+            e.target.value = formatted;
+        });
+    </script>
+</body>
+</html>

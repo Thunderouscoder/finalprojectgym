@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Style for the map container */
+        #map {
+            width: 100%;
+            height: 500px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* Centered content */
+        #location-section {
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Image Gallery Section */
+        #image-gallery {
+            padding: 20px;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+
+        #image-gallery h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .gallery-container img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-container img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="location.html">Location</a></li>
+                <li><a href="classes.html">Classes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Location Section -->
+        <section id="location-section">
+            <h1>Find Us</h1>
+            <p>Visit Infinite Fitness Gym at our convenient location:</p>
+            <div id="map"></div>
+        </section>
+
+        <!-- Gym Image Gallery Section -->
+        <section id="image-gallery">
+            <h2>Explore Our Gym</h2>
+            <div class="gallery-container">
+                <img src="insidegym.jpg" alt="Gym Interior 1">
+                <img src="groupclass.jpg" alt="Gym Interior 2">
+                <img src="tshirt.png" alt="Gym Interior 3">
+                <img src="running.jpg" alt="Gym Interior 4">
+                <img src="squatting.jpg" alt="Gym Interior 5">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Infinite Fitness Gym. All rights reserved.</p>
+    </footer>
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXtjKzmInzAkKsbG0qvZYp9GBGpuO2LyQ"></script>
+    <script>
+        function initMap() {
+            const gymLocation = { lat: 40.7128, lng: -74.0060 }; // Example coordinates (New York City)
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: gymLocation,
+            });
+            const marker = new google.maps.Marker({
+                position: gymLocation,
+                map: map,
+                title: "Infinite Fitness Gym",
+            });
+        }
+
+        // Initialize the map
+        window.onload = initMap;
+    </script>
+</body>
+</html>

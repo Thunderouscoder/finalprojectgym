@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership Plans</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="location.html">Location</a></li>
+                <li><a href="classes.html">Classes</a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="membership-plans">
+            <h1>Select a Membership Plan</h1>
+            <div class="plans-container">
+                <!-- Silver Membership -->
+                <div class="plan-card">
+                    <h2>Silver Membership</h2>
+                    <div class="carousel">
+                        <img id="silver-img" src="tshirt.png" alt="Silver 1">
+                        <button onclick="changeImage('silver', -1)">&#10094;</button>
+                        <button onclick="changeImage('silver', 1)">&#10095;</button>
+                    </div>
+                    <p>$60</p>
+                    <p>Perfect for beginners. Access to classes, 1-on-1 consultation, and a free t-shirt.</p>
+                    <button onclick="selectPlan('Silver', 60)">Select Plan</button>
+                </div>
+
+                <!-- Gold Membership -->
+                <div class="plan-card">
+                    <h2>Gold Membership</h2>
+                    <div class="carousel">
+                        <img id="gold-img" src="groupclass.jpg" alt="Gold 1">
+                        <button onclick="changeImage('gold', -1)">&#10094;</button>
+                        <button onclick="changeImage('gold', 1)">&#10095;</button>
+                    </div>
+                    <p>$90</p>
+                    <p>Ideal for advanced trainers. Personalized programs, online coaching, and full nutrition plans.</p>
+                    <button onclick="selectPlan('Gold', 90)">Select Plan</button>
+                </div>
+
+                <!-- Platinum Membership -->
+                <div class="plan-card">
+                    <h2>Platinum Membership</h2>
+                    <div class="carousel">
+                        <img id="platinum-img" src="insidegym.jpg" alt="Platinum 1">
+                        <button onclick="changeImage('platinum', -1)">&#10094;</button>
+                        <button onclick="changeImage('platinum', 1)">&#10095;</button>
+                    </div>
+                    <p>$140</p>
+                    <p>Perfect for committed trainers. 24/7 gym access, physio sessions, and custom training programs.</p>
+                    <button onclick="selectPlan('Platinum', 140)">Select Plan</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Infinite Fitness Gym. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Carousel Images
+        const images = {
+            silver: ["tshirt.png", "groupclass.jpg", "insidegym.jpg"],
+            gold: ["groupclass.jpg", "tshirt.png", "insidegym.jpg"],
+            platinum: ["insidegym.jpg", "groupclass.jpg", "tshirt.png"]
+        };
+
+        const currentImageIndex = { silver: 0, gold: 0, platinum: 0 };
+
+        // Function to change image
+        function changeImage(plan, direction) {
+            const imgElement = document.getElementById(`${plan}-img`);
+            currentImageIndex[plan] += direction;
+
+            if (currentImageIndex[plan] < 0) currentImageIndex[plan] = images[plan].length - 1;
+            if (currentImageIndex[plan] >= images[plan].length) currentImageIndex[plan] = 0;
+
+            imgElement.src = images[plan][currentImageIndex[plan]];
+        }
+
+        // Redirect to checkout page with query parameters
+        function selectPlan(planName, price) {
+            const queryString = `?plan=${encodeURIComponent(planName)}&price=${price}`;
+            window.location.href = `checkout.html${queryString}`;
+        }
+    </script>
+</body>
+</html>
